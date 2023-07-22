@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Asset {
   id           String        @id @map("_id")
   symbol       String
@@ -18,14 +17,15 @@ model Asset {
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   WalletAssets WalletAsset[]
+  Orders        Order[]
 }
-
 
 model Wallet {
   id           String        @id @map("_id")
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   WalletAssets WalletAsset[]
+  Order        Order[]
 }
 
 model WalletAsset {
@@ -40,4 +40,32 @@ model WalletAsset {
   updated_at DateTime @updatedAt
 
   @@unique([wallet_id, asset_id])
+}
+
+model Order {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  Wallet     Wallet      @relation(fields: [wallet_id], references: [id])
+  wallet_id  String
+  Asset      Asset       @relation(fields: [asset_id], references: [id])
+  asset_id   String
+  shares     Int         @db.Int
+  price      Float
+  type       OrderType
+  status     OrderStatus
+  partial    Int         @db.Int
+  version    Int
+  created_at DateTime    @default(now())
+  updated_at DateTime    @updatedAt
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  CLOSED
+  FAILED
 }
