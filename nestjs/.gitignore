@@ -39,4 +39,5 @@ lerna-debug.log*
 .yarn
 .env
 .ash_history
+.bash_history
 .yarnrc
