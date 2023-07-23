@@ -9,6 +9,9 @@ services:
      - .:/home/node
    ports:
      - 3000:3000
+     - 5555:5555
+   extra_hosts:
+      - "host.docker.internal:172.17.0.1"
 
   db:
     image: bitnami/mongodb:5.0.17
