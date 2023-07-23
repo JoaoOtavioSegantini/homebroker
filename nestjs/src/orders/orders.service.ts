@@ -1,11 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { InitTransactionDto, InputExecuteTransactionDto } from './order.dto';
 import { OrderStatus, OrderType } from '@prisma/client';
+import { ClientKafka } from '@nestjs/microservices';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Order as OrderSchema } from './order.schema';
 
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    @Inject('ORDERS_PUBLISHER')
+    private readonly kafkaClient: ClientKafka,
+    @InjectModel(OrderSchema.name) private orderModel: Model<OrderSchema>,
+  ) {}
 
   all(filter: { wallet_id: string }) {
     return this.prisma.order.findMany({
@@ -28,7 +37,7 @@ export class OrdersService {
   }
 
   async initTransaction(input: InitTransactionDto) {
-    return this.prisma.order.create({
+    const order = await this.prisma.order.create({
       data: {
         asset_id: input.asset_id,
         wallet_id: input.wallet_id,
@@ -40,6 +49,16 @@ export class OrdersService {
         version: 1,
       },
     });
+
+    this.kafkaClient.emit('input', {
+      order_id: order.id,
+      investor_id: order.wallet_id,
+      asset_id: order.asset_id,
+      shares: order.shares,
+      price: order.price,
+      order_type: order.type,
+    });
+    return order;
   }
 
   async executeTransaction(input: InputExecuteTransactionDto) {
