@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
 }
 
 datasource db {
@@ -56,6 +57,7 @@ model Order {
   version    Int
   created_at DateTime    @default(now())
   updated_at DateTime    @updatedAt
+  Transactions Transaction[]
 }
 
 enum OrderType {
@@ -68,4 +70,16 @@ enum OrderStatus {
   OPEN
   CLOSED
   FAILED
+}
+
+model Transaction {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  Order                 Order    @relation(fields: [order_id], references: [id])
+  order_id              String   @db.ObjectId
+  related_investor_id   String
+  broker_transaction_id String
+  shares                Int      @db.Int
+  price                 Float
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
 }
