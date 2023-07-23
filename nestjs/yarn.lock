@@ -745,6 +745,14 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-2.0.2.tgz#c8a090a8d22145b85ed977414c158534210f2e4f"
   integrity sha512-V0izw6tWs6fTp9+KiiPUbGHWALy563Frn8X6Bm87ANLRuE46iuBMD5acKBDP5lKL/75QFvrzSJT7HkCbB0jTpg==
 
+"@nestjs/microservices@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-10.1.0.tgz#e27a0bf5d281f65f052c9d2e64a98287b67a472b"
+  integrity sha512-q80UqfHiLEKR6y8nOvIlVDO2y17U2LX861gVoSHeVB/fOF+deo9+imgE+1Re0LpAu0synu1vxvGaWEe1SmJgMA==
+  dependencies:
+    iterare "1.2.1"
+    tslib "2.6.0"
+
 "@nestjs/mongoose@^10.0.1":
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-10.0.1.tgz#f55f4bf79d08f4a93834fe7fe27d42b5f19fccf3"
@@ -3362,6 +3370,11 @@ jsonfile@^6.0.1:
     universalify "^2.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+kafkajs@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/kafkajs/-/kafkajs-2.2.4.tgz#59e6e16459d87fdf8b64be73970ed5aa42370a5b"
+  integrity sha512-j/YeapB1vfPT2iOIUn/vxdyKEuhuY2PxMBvf5JWux6iSaukAccrMtXEY/Lb7OvavDhOWME589bpLrEdnVHjfjA==
 
 kareem@2.5.1:
   version "2.5.1"
