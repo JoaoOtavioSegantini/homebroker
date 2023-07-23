@@ -26,7 +26,7 @@ model Wallet {
   created_at   DateTime      @default(now())
   updated_at   DateTime      @updatedAt
   WalletAssets WalletAsset[]
-  Order        Order[]
+  Orders        Order[]
 }
 
 model WalletAsset {
